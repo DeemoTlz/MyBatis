@@ -1,7 +1,7 @@
 package com.deemo.test;
 
 import com.deemo.hard.entity.Game;
-import com.deemo.hard.mapper.CaAdminMapper;
+import com.deemo.hard.mapper.GameMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public class mybatis {
+public class MybatisTest {
 
     static private SqlSessionFactory sqlSessionFactory = null;
     static private SqlSession sqlSession = null;
@@ -48,7 +48,7 @@ public class mybatis {
 
         System.out.println(games.size());
 
-        CaAdminMapper mapper = sqlSession.getMapper(CaAdminMapper.class);
+        GameMapper mapper = sqlSession.getMapper(GameMapper.class);
 
         System.out.println(mapper.list().size());
     }

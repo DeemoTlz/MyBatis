@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 注解开发 -->
+    <context:annotation-config/>
+    <!-- 扫描包 -->
+    <context:component-scan base-package="com.deemo.hard"/>
+
+    <!-- 引入外部资源文件 -->
+    <context:property-placeholder location="db.properties"/>
+
+    <!-- 配置数据源 -->
+    <bean id="datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${driver}"/>
+        <property name="jdbcUrl" value="${url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${password}"/>
+        <!-- 当连接池中的连接耗尽的时候c3p0一次同时获取的连接数  -->
+        <property name="acquireIncrement" value="5"/>
+        <!-- 初始连接池大小 -->
+        <property name="initialPoolSize" value="10"/>
+        <!-- 连接池中连接最小个数 -->
+        <property name="minPoolSize" value="5"/>
+        <!-- 连接池中连接最大个数 -->
+        <property name="maxPoolSize" value="20"/>
+    </bean>
+
+    <!-- 会话工厂bean -->
+    <bean id="sessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="datasource"/>
+        <property name="mapperLocations" value="mapping/*Mapper.xml"/>
+    </bean>
+
+    <!-- 扫描mapper接口 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.deemo.hard.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sessionFactoryBean"/>
+    </bean>
+
+    <!-- 事务 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="datasource"/>
+    </bean>
+
+    <!--<tx:advice id="interceptor" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="transfer" isolation="DEFAULT" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:advisor advice-ref="interceptor" pointcut="execution(* com.deemo.hard.service..*.*(..))"/>
+    </aop:config>-->
+
+    <!--支持注解驱动的事务管理 -->
+    <tx:annotation-driven/>
+</beans>

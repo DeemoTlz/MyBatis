@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-    <properties resource="db.properties"/>
+    <!--<properties resource="db.properties"/>
     
     <settings>
         <setting name="logImpl" value="LOG4J"/>
@@ -12,7 +12,7 @@
 
     <environments default="dev">
         <environment id="dev">
-            <!--<transactionManager type="JDBC" />-->
+            &lt;!&ndash;<transactionManager type="JDBC" />&ndash;&gt;
             <transactionManager type="JDBC" />
             <dataSource type="POOLED">
                 <property name="driver" value="${driver}"/>
@@ -25,6 +25,6 @@
 
     <mappers>
         <mapper resource="mapping/CaAdminMapper.xml" />
-        <!--<package name="com.deemo.hard.mapper"/>-->
-    </mappers>
+        &lt;!&ndash;<package name="com.deemo.hard.mapper"/>&ndash;&gt;
+    </mappers>-->
 </configuration>
