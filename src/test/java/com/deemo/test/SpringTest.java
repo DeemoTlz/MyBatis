@@ -1,13 +1,11 @@
 package com.deemo.test;
 
 import com.deemo.hard.entity.Game;
-import com.deemo.hard.mapper.GameMapper;
 import com.deemo.hard.service.IGameService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.transaction.annotation.Transactional;
 
 public class SpringTest {
 
@@ -33,7 +31,7 @@ public class SpringTest {
     }
 
     @Test
-    public void applicationTest() {
+    public void getTest() {
 
         Game game = iGameService.getGameById(1);
 

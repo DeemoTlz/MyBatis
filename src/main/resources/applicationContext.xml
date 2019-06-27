@@ -51,15 +51,19 @@
         <property name="dataSource" ref="datasource"/>
     </bean>
 
-    <!--<tx:advice id="interceptor" transaction-manager="transactionManager">
+    <!-- 配置transaction-manager，默认为transactionManager（可省略） -->
+    <tx:advice id="interceptor">
         <tx:attributes>
-            <tx:method name="transfer" isolation="DEFAULT" propagation="REQUIRED"/>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="load*" read-only="true"/>
+            <!-- isolation默认为：DEFAULT， propagation默认为：REQUIRED -->
+            <tx:method name="update*"/>
         </tx:attributes>
     </tx:advice>
 
     <aop:config>
         <aop:advisor advice-ref="interceptor" pointcut="execution(* com.deemo.hard.service..*.*(..))"/>
-    </aop:config>-->
+    </aop:config>
 
     <!--支持注解驱动的事务管理 -->
     <tx:annotation-driven/>
