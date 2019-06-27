@@ -1,7 +1,6 @@
 package com.deemo.hard.mapper;
 
 import com.deemo.hard.entity.Game;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -16,5 +15,5 @@ public interface GameMapper {
 
     List<Game> list();
 
-    boolean update(Game game);
+    void update(Game game);
 }

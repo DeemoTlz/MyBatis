@@ -27,7 +27,7 @@ public class SpringTest {
         game.setId(2);
         game.setDesc("波兰蠢驴666");
 
-        System.out.println(iGameService.updateGame(game));
+        iGameService.updateGame(game);
     }
 
     @Test

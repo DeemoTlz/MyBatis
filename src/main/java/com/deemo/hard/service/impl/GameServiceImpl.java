@@ -22,11 +22,12 @@ public class GameServiceImpl implements IGameService {
     }
 
     @Override
-    public boolean updateGame(Game game) {
+    public void updateGame(Game game) {
+        gameMapper.update(game);
+        System.out.println("===================");
+        game.setDesc(game.getDesc() + "123456");
         gameMapper.update(game);
         // 测试事务
         // int i = 1 / 0;
-
-        return true;
     }
 }
