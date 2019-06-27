@@ -4,27 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-    <!--<properties resource="db.properties"/>
+    <properties resource="db.properties"/>
     
     <settings>
-        <setting name="logImpl" value="LOG4J"/>
+        <setting name="logImpl" value="LOG4J2"/>
     </settings>
 
     <environments default="dev">
         <environment id="dev">
-            &lt;!&ndash;<transactionManager type="JDBC" />&ndash;&gt;
             <transactionManager type="JDBC" />
             <dataSource type="POOLED">
                 <property name="driver" value="${driver}"/>
                 <property name="url" value="${url}"/>
-                <property name="username" value="${username}"/>
+                <property name="username" value="${jdbc.username}"/>
                 <property name="password" value="${password}"/>
             </dataSource>
         </environment>
     </environments>
 
     <mappers>
-        <mapper resource="mapping/CaAdminMapper.xml" />
-        &lt;!&ndash;<package name="com.deemo.hard.mapper"/>&ndash;&gt;
-    </mappers>-->
+        <mapper resource="mapping/GameMapper.xml" />
+        <!--<package name="com.deemo.hard.mapper"/>-->
+    </mappers>
 </configuration>

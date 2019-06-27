@@ -37,6 +37,7 @@ public class MybatisTest {
         mapper.update(game);
         System.out.println("============");*/
 
+        // DefaultSqlSession 需要手动提交事务
         sqlSession.update("update", game);
         // sqlSession.commit();
     }
