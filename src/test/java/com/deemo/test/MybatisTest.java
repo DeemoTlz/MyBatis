@@ -45,7 +45,7 @@ public class MybatisTest {
     @Test
     public void getGames() {
 
-        List<Game> games = sqlSession.selectList("com.deemo.hard.mapper.CaAdminMapper.list");
+        List<Game> games = sqlSession.selectList("com.deemo.hard.mapper.GameMapper.list");
 
         System.out.println(games.size());
 
