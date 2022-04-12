@@ -12,4 +12,12 @@
     <update id="update" parameterType="com.deemo.hard.entity.Game">
         UPDATE `game` SET `desc` = #{desc} WHERE id = #{id}
     </update>
+
+    <insert id="insert" parameterType="com.deemo.hard.entity.Game">
+        INSERT INTO `game` (`name`, `price`, `desc`) VALUE (#{name}, #{price}, #{desc})
+    </insert>
+
+    <select id="get" parameterType="java.lang.Integer" resultType="com.deemo.hard.entity.Game">
+        SELECT * FROM `game` WHERE id = #{id}
+    </select>
 </mapper>

@@ -15,5 +15,9 @@ public interface GameMapper {
 
     List<Game> list();
 
+    Game get(Integer id);
+
     void update(Game game);
+
+    Integer insert(Game game);
 }

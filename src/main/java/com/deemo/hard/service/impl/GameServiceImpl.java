@@ -23,11 +23,26 @@ public class GameServiceImpl implements IGameService {
 
     @Override
     public void updateGame(Game game) {
-        gameMapper.update(game);
-        System.out.println("===================");
+        System.out.println(gameMapper.get(game.getId()));
+        System.out.println(gameMapper.get(game.getId()));
+        // gameMapper.update(game);
         game.setDesc(game.getDesc() + "123456");
+        // 更新后会导致一级缓存失效
         gameMapper.update(game);
         // 测试事务
         // int i = 1 / 0;
+        System.out.println("========================================================");
+        System.out.println(gameMapper.get(game.getId()));
+
+        /*new Thread(() -> {
+            System.out.println("========================================================");
+            System.out.println(gameMapper.get(game.getId()));
+            Game newGame = new Game();
+            newGame.setName("Dark Soul");
+            newGame.setPrice(299.0);
+            newGame.setDesc("有一天");
+
+            gameMapper.insert(newGame);
+        }).start();*/
     }
 }

@@ -26,7 +26,7 @@
     </appenders>
     <loggers>
         <!-- 全局配置 -->
-        <root level="info">
+        <root level="debug">
             <appenderRef ref="Console"/>
             <appenderRef ref="RollingFile"/>
         </root>
