@@ -1,5 +1,5 @@
 # MyBatis
-Just learn how MyBatis works…φ(๑˃∀˂๑)♪
+Albrus learn how MyBatis works…φ(๑˃∀˂๑)♪
 
 SqlSessionTemplate：
 ```java
