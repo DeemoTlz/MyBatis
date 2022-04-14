@@ -648,6 +648,7 @@ SqlSessionUtils.getSqlSession(SqlSessionFactory, ExecutorType, PersistenceExcept
 
 一级缓存：
 针对同一个sqlSession
+
 ```java
 当未开启事务时、或开启事务但未执行更新操作时，一级缓存生效：
 org.apache.ibatis.executor.BaseExecutor.localCache(PerpetualCache) 
@@ -695,3 +696,135 @@ BaseExecutor.update(MappedStatement, Object parameter) {
     }*/
 }
 ```
+
+## 四、参数处理
+
+### 4.1 接口参数名称解析
+
+```java
+// org.apache.ibatis.reflection.ParamNameResolver#getNamedParams
+private static final String GENERIC_NAME_PREFIX = "param";
+
+/**
+ * <p>
+ * A single non-special parameter is returned without a name.
+ * Multiple parameters are named using the naming rule.
+ * In addition to the default names, this method also adds the generic names (param1, param2,
+ * ...).
+ * </p>
+ */
+public Object getNamedParams(Object[] args) {
+    final int paramCount = names.size();
+    if (args == null || paramCount == 0) {
+        return null;
+    } else if (!hasParamAnnotation && paramCount == 1) {
+        return args[names.firstKey()];
+    } else {
+        final Map<String, Object> param = new ParamMap<>();
+        int i = 0;
+        for (Map.Entry<Integer, String> entry : names.entrySet()) {
+            param.put(entry.getValue(), args[entry.getKey()]);
+            // add generic param names (param1, param2, ...)
+            final String genericParamName = GENERIC_NAME_PREFIX + String.valueOf(i + 1);
+            // ensure not to overwrite parameter named with @Param
+            if (!names.containsValue(genericParamName)) {
+                param.put(genericParamName, args[entry.getKey()]);
+            }
+            i++;
+        }
+        return param;
+    }
+}
+```
+
+### 4.2 接口参数封装
+
+```java
+// org.apache.ibatis.session.defaults.DefaultSqlSession#wrapCollection
+private Object wrapCollection(final Object object) {
+    if (object instanceof Collection) {
+        StrictMap<Object> map = new StrictMap<>();
+        map.put("collection", object);
+        if (object instanceof List) {
+            map.put("list", object);
+        }
+        return map;
+    } else if (object != null && object.getClass().isArray()) {
+        StrictMap<Object> map = new StrictMap<>();
+        map.put("array", object);
+        return map;
+    }
+    return object;
+}
+```
+
+在 Jdk 1.8 之后，MyBatis 引入 `useActualParamName`，此后可以直接使用参数名称：
+
+```java
+// org.apache.ibatis.reflection.ParamNameResolver#ParamNameResolver
+// @Param was not specified.
+if (config.isUseActualParamName()) {
+    name = getActualParamName(method, paramIndex);
+}
+
+// org.apache.ibatis.reflection.ParamNameResolver#getActualParamName
+private String getActualParamName(Method method, int paramIndex) {
+    return ParamNameUtil.getParamNames(method).get(paramIndex);
+}
+
+// org.apache.ibatis.reflection.ParamNameUtil#getParameterNames
+private static List<String> getParameterNames(Executable executable) {
+    final List<String> names = new ArrayList<>();
+    // 直接获取参数名称
+    final Parameter[] params = executable.getParameters();
+    for (Parameter param : params) {
+        names.add(param.getName());
+    }
+    return names;
+}
+```
+
+## 五、封装返回自增ID
+
+需要在 Mapper 中指定：
+
+```xml
+<insert id="insert" parameterType="com.deemo.hard.entity.Game" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO `game` (`name`, `price`, `description`) VALUE (#{name}, #{price}, #{description})
+</insert>
+```
+
+Java 源码：
+
+```java
+// org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator#processBatch
+try (ResultSet rs = statement.getGeneratedKeys()) {...}
+```
+
+## 六、JdbcType
+
+`java.sql.Types`：
+
+```java
+/**
+ * <P>The constant in the Java programming language
+ * that identifies the generic SQL value
+ * <code>NULL</code>.
+ */
+public final static int NULL            =   0;
+
+/**
+ * The constant in the Java programming language that indicates
+ * that the SQL type is database-specific and
+ * gets mapped to a Java object that can be accessed via
+ * the methods <code>getObject</code> and <code>setObject</code>.
+ */
+public final static int OTHER           = 1111;
+```
+
+
+
+默认MyBatis将 NULL 类型映射为原生JDBC的OTHER类型，而ORACLE不支持该类型，在应用中就会出现当插入的字段为NULL时，会抛出==无效的数据类型：1111==异常。如果需要支持字段为NULL，需要修改该字段：
+
+1. `#{description, jdbcType=NULL}`
+2. 全局修改：`<setting name="jdbcTypeForNull" value="NULL" />`
