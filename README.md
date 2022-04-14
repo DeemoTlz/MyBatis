@@ -168,7 +168,7 @@ public void getGames() {
        // 否则，使用 Map 包装参数（除了正常的参数名称外，还会放置 param1, param2, ...）
        Object param = method.convertArgsToSqlCommandParam(args);
        // selectOne 最终会到 selectList
-       result = sqlSession.selectOne 最终会到 (command.getName(), param);
+       result = sqlSession.selectOne(command.getName(), param);
        
        // ...
    }
@@ -545,7 +545,27 @@ public void getGames() {
 
 11. 处理缓存、连接，流程结束
 
-## 二、缓存
+![image-20220414213152976](images/image-20220414213152976.png)
+
+## 二、四大对象
+
+1. `Executor`
+
+   在 `sqlSessionFactory.openSession()` 时创建，被 `SqlSession` 持有：也就是说，每创建一个 `SqlSession` 便会创建一个 `Executor` 被 `SqlSession` 持有
+
+2. `StatementHandler`
+
+   在通过 `SqlSession` 获取到 `MapperProxy` 对象后调用接口时，最终会进入 `SqlSession` 的查询方法，也将最终调用 `Executor` 的 `doUpdate/doQuery` 方法，此时便会创建 `StatementHandler` 对象：也就是说，没调用一次接口，便会生成一个 `StatementHandler` 对象
+
+3. `ParameterHandler`
+
+   在创建 `StatementHandler` 对象的构造方法中被初始化创建，被 `StatementHandler` 持有
+
+4. `ResultSetHandler`
+
+   在创建 `StatementHandler` 对象的构造方法中被初始化创建，被 `StatementHandler` 持有
+
+## 三、缓存
 
 SqlSessionTemplate：
 ```java

@@ -28,18 +28,13 @@ public class MybatisTest {
     }
 
     @Test
-    public void updateGame() {
-        Game game = new Game();
-        game.setId(2);
-        game.setDescription("波兰蠢驴7777");
+    public void testSqlSession() {
+        SqlSession sqlSession2 = sqlSessionFactory.openSession();
 
-        /*GameMapper mapper = sqlSession.getMapper(GameMapper.class);
-        mapper.update(game);
-        System.out.println("============");*/
+        System.out.println(sqlSession);
+        System.out.println(sqlSession2);
 
-        // DefaultSqlSession 需要手动提交事务
-        sqlSession.update("update", game);
-        // sqlSession.commit();
+        sqlSession2.close();
     }
 
     @Test
@@ -60,17 +55,37 @@ public class MybatisTest {
         game.setPrice(32.0);
         game.setDescription("");
         Integer insert = mapper.insert(game);
+        sqlSession.commit();
         System.out.println("The insert id: " + insert);
     }
 
     @Test
-    public void testSqlSession() {
-        SqlSession sqlSession2 = sqlSessionFactory.openSession();
+    public void updateGame() {
+        Game game = new Game();
+        game.setId(2);
+        game.setDescription("波兰蠢驴7777");
 
-        System.out.println(sqlSession);
-        System.out.println(sqlSession2);
+        /*GameMapper mapper = sqlSession.getMapper(GameMapper.class);
+        mapper.update(game);
+        System.out.println("============");*/
 
-        sqlSession2.close();
+        // DefaultSqlSession 需要手动提交事务
+        sqlSession.update("update", game);
+        // sqlSession.commit();
+    }
+
+    @Test
+    public void addGames() {
+        Game game = new Game();
+        game.setName("赛博朋克 2077");
+        game.setPrice(178.0);
+        game.setDescription("波兰蠢驴7777");
+
+        GameMapper mapper = sqlSession.getMapper(GameMapper.class);
+        mapper.insert(game);
+        sqlSession.commit();
+
+        System.out.println(game);
     }
 
     @After

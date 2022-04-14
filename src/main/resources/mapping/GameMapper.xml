@@ -13,7 +13,7 @@
         UPDATE `game` SET `description` = #{description} WHERE id = #{id}
     </update>
 
-    <insert id="insert" parameterType="com.deemo.hard.entity.Game">
+    <insert id="insert" parameterType="com.deemo.hard.entity.Game" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `game` (`name`, `price`, `description`) VALUE (#{name}, #{price}, #{description})
     </insert>
 
