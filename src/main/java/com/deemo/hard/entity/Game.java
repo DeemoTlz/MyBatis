@@ -5,7 +5,7 @@ public class Game {
     private Integer id;
     private Double price;
     private String name;
-    private String desc;
+    private String description;
 
     public Integer getId() {
         return id;
@@ -31,12 +31,12 @@ public class Game {
         this.name = name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Game {
                 "id=" + id +
                 ", price=" + price +
                 ", name='" + name + '\'' +
-                ", desc='" + desc + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

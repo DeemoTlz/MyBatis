@@ -10,6 +10,6 @@
     </select>
 
     <update id="update" parameterType="com.deemo.hard.entity.Game">
-        UPDATE `game` SET `desc` = #{desc} WHERE id = #{id}
+        UPDATE `game` SET `desc` = #{description} WHERE id = #{id}
     </update>
 </mapper>

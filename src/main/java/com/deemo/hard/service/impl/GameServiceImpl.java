@@ -26,7 +26,7 @@ public class GameServiceImpl implements IGameService {
         System.out.println(gameMapper.get(game.getId()));
         System.out.println(gameMapper.get(game.getId()));
         // gameMapper.update(game);
-        game.setDesc(game.getDesc() + "123456");
+        game.setDescription(game.getDescription() + "123456");
         // 更新后会导致一级缓存失效
         gameMapper.update(game);
         // 测试事务

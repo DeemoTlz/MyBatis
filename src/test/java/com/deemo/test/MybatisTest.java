@@ -31,9 +31,9 @@ public class MybatisTest {
     public void updateGame() {
         Game game = new Game();
         game.setId(2);
-        game.setDesc("波兰蠢驴7777");
+        game.setDescription("波兰蠢驴7777");
 
-        /*CaAdminMapper mapper = sqlSession.getMapper(CaAdminMapper.class);
+        /*GameMapper mapper = sqlSession.getMapper(GameMapper.class);
         mapper.update(game);
         System.out.println("============");*/
 
@@ -44,14 +44,23 @@ public class MybatisTest {
 
     @Test
     public void getGames() {
-
-        List<Game> games = sqlSession.selectList("com.deemo.hard.mapper.GameMapper.list");
-
-        System.out.println(games.size());
-
         GameMapper mapper = sqlSession.getMapper(GameMapper.class);
 
-        System.out.println(mapper.list().size());
+        Game entity = mapper.get(1);
+        System.out.println("ID: " + entity);
+
+        List<Game> games1 = mapper.list();
+        System.out.println("Count: " + games1.size());
+
+        List<Game> games2 = sqlSession.selectList("com.deemo.hard.mapper.GameMapper.list");
+        System.out.println("Count: " + games2.size());
+
+        Game game = new Game();
+        game.setName("Deemo");
+        game.setPrice(32.0);
+        game.setDescription("");
+        Integer insert = mapper.insert(game);
+        System.out.println("The insert id: " + insert);
     }
 
     @Test

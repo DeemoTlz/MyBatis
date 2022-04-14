@@ -10,11 +10,11 @@
     </select>
 
     <update id="update" parameterType="com.deemo.hard.entity.Game">
-        UPDATE `game` SET `desc` = #{desc} WHERE id = #{id}
+        UPDATE `game` SET `description` = #{description} WHERE id = #{id}
     </update>
 
     <insert id="insert" parameterType="com.deemo.hard.entity.Game">
-        INSERT INTO `game` (`name`, `price`, `desc`) VALUE (#{name}, #{price}, #{desc})
+        INSERT INTO `game` (`name`, `price`, `description`) VALUE (#{name}, #{price}, #{description})
     </insert>
 
     <select id="get" parameterType="java.lang.Integer" resultType="com.deemo.hard.entity.Game">

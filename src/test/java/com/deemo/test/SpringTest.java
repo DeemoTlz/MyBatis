@@ -25,7 +25,7 @@ public class SpringTest {
 
         Game game = new Game();
         game.setId(2);
-        game.setDesc("波兰蠢驴666");
+        game.setDescription("波兰蠢驴666");
 
         iGameService.updateGame(game);
     }
