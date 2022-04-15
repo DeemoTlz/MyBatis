@@ -8,7 +8,7 @@
         <!--LOG_HOME:指定当前日志存放的目录 -->
         <property name="LOG_HOME">logging</property>
         <!--FILE_NAME:指定日志文件的名称 -->
-        <property name="FILE_NAME">albrus-netty</property>
+        <property name="FILE_NAME">albrus-mybatis</property>
     </properties>
 
     <!--Appenders: 定义日志输出目的地，内容和格式等 -->
