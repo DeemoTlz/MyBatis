@@ -18,14 +18,14 @@
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
             <!--pattern:日期,线程名,日志级别,日志名称,日志信息,换行 -->
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level [%L] - %msg%n" />
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level [%C{36}#%M(%L)] - %msg%n" />
         </Console>
         <!--RollingFile:日志输出到文件,下面的文件都使用相对路径 -->
         <!--fileName:当前日志输出的文件名称 -->
         <!--filePattern:备份日志文件名称，备份目录为logs下面以年月命名的目录，备份时使用gz格式压缩 -->
         <RollingFile name="RollingFile" fileName="${LOG_HOME}/${FILE_NAME}.log"
                      filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level [%L] - %msg%n" />
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level [%C{36}#%M(%L)] - %msg%n" />
             <!--Policies:触发策略决定何时执行备份 -->
             <Policies>
                 <!--TimeBasedTriggeringPolicy:日志文件按照时间备份 -->
